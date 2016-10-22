@@ -1,0 +1,29 @@
+
+<br><br><br>
+<div class = 'row'>
+	<div class = 'col-sm-3'>
+		<%= @org.name %> <br> <br>
+		<%=@org.description %> <br><br>
+		<h4>Created By: <% if @org.owner_id == current_user.id %>
+								YOU!	
+						<%else %>
+							<%= User.find_by_id(@org.owner_id).first_name %> <%=  User.find_by_id(@org.owner_id).last_name %>
+						<%end%> </h4> <br>
+		<h5>Members:</h5>
+		<% @org.users.each do  |t| %>
+			<%= t.first_name %> <%= t.last_name %> <br>
+		<% end %>
+
+	</div>
+	<div class = 'col-sm-2'> 
+	<% if @org.users.find_by_id(current_user.id)%>
+	 		<%=button_to 'Leave Group', '/drop_org', :class => 'btn btn-danger pull-right',params: { org_id: @org.id } %> <br> <br>
+	 	<% else %>
+	 		<%= button_to 'Join Group', '/join_org', :class => 'btn btn-success pull-right',params: { org_id: @org.id } %><br><br>
+	 	<% end %>
+		
+	</div>
+
+
+
+</div>

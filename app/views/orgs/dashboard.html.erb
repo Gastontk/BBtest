@@ -1,0 +1,35 @@
+<div class ='col-sm-10'>
+	<h3>Welcome <%=current_user.first_name %> <%=current_user.last_name %></h3> <br> <br>
+	<%= flash[:message] if flash[:message] %>
+
+
+		<div class = 'col-sm-6'>
+				<h4>Here are the organizations you can join</h4>
+			<% @orgs.each do |t| %>
+			
+				<%= link_to t.name, org_path(t) %> <% if t.owner_id == current_user.id %>
+														- <%= link_to('Delete', org_path(t), :method => 'delete')%>
+													<% end %> <br>
+				
+					Members: <%= Membership.where(org_id: t.id).count%><br> <br>
+				&nbsp	<%=t.description%> <br>
+					------------------ <br>
+			<% end %>
+		</div>
+
+		<div class = 'col-md-4' style ='border:solid black .5px;padding-bottom:10px'>
+			<%= bootstrap_form_for(@org, url: '/create_group') do |t| %>
+				<%= t.text_field :name, placeholder: 'Group Name' %>
+				<%= t.text_field :description, placeholder: 'Group description' %>
+				<%= t.submit 'Create Org', class: 'btn btn-primary pull-right' %>
+			<%end%>
+		</div>
+
+
+
+
+
+	
+
+
+</div>
